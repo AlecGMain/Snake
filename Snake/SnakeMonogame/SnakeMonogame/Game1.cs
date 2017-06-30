@@ -15,10 +15,7 @@ namespace SnakeMonogame
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
-        Texture2D image;
-        Vector2 position;
-        Color tint;
-  
+
         protected override void Initialize()
         {
            
@@ -30,9 +27,7 @@ namespace SnakeMonogame
         {
           
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            image = Content.Load<Texture2D>("Tower1");
-            position = new Vector2(0, 0);
-            tint = Color.White;
+
          
         }
 
@@ -51,7 +46,7 @@ namespace SnakeMonogame
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(image, position, tint);
+            
 
             spriteBatch.End();
 
