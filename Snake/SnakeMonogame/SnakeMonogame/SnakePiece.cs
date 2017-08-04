@@ -10,10 +10,11 @@ namespace SnakeMonogame
 {
     class SnakePiece : Sprite
     {
-
-        public SnakePiece(Texture2D Image, Vector2 Position, Color Color) : base(Image, Position, Color)
+        public int Speed = 1;
+        public SnakePiece(Texture2D image, Vector2 position, Color color, int speed) 
+            : base(image, position, color)
         {
-
+            Speed = speed;
         }
     }
 }

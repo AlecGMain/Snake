@@ -11,7 +11,7 @@ namespace SnakeMonogame
     class Sprite
     {
         Texture2D image;
-        Vector2 position;
+       public  Vector2 position;
         Color color;
         public Rectangle hitbox;
         public Sprite(Texture2D Image, Vector2 Position, Color Color)
@@ -26,6 +26,7 @@ namespace SnakeMonogame
             spriteBatch.Draw(image, position, color);
 
         }
+
         public void Update(GameTime gameTime)
         {
             hitbox.X = (int)position.X;
