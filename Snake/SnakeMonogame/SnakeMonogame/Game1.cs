@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -11,6 +12,12 @@ namespace SnakeMonogame
         SpriteBatch spriteBatch;
         SnakeHead head;
         KeyboardState ks;
+        bool dead;
+        SpriteFont font;
+
+        SoundEffect catSoundEffect;
+        SoundEffectInstance catSoundEffectInstance;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -30,8 +37,13 @@ namespace SnakeMonogame
         {
           
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            head = new SnakeHead(Content.Load<Texture2D>("Nyan"), Vector2.Zero, Color.White, 1);
-         
+            head = new SnakeHead(Content.Load<Texture2D>("Nyan"),new Vector2(1,1), Color.White, 1);
+            dead = false;
+            font = Content.Load<SpriteFont>("Font");
+            catSoundEffect = Content.Load<SoundEffect>("cat_screech2");
+            catSoundEffectInstance = catSoundEffect.CreateInstance();
+            catSoundEffectInstance.IsLooped = true;
+            catSoundEffectInstance.Play();       
         }
 
         protected override void Update(GameTime gameTime)
@@ -60,6 +72,36 @@ namespace SnakeMonogame
             {
                 head.position.X += head.Speed;
             }
+            if (head.position.X <= 0)
+            {
+                head.Speed = 0;
+                dead = true;
+            }
+            if(head.position.X >= 600 - head.image.Width)
+            {
+                head.Speed = 0;
+                dead = true;
+            }
+            if (head.position.Y <= 0)
+            {
+                head.Speed = 0;
+                dead = true;
+            }
+            if (head.position.Y >= 600 - head.image.Width)
+            {
+                head.Speed = 0;
+                dead = true;
+            }
+
+            if (dead)
+            {
+                if (catSoundEffectInstance == null)
+                { 
+                    catSoundEffectInstance = catSoundEffect.CreateInstance();
+                    catSoundEffect.Play();
+                }
+            }
+
             base.Update(gameTime);
         }
 
@@ -71,7 +113,10 @@ namespace SnakeMonogame
             spriteBatch.Begin();
 
             head.Draw(spriteBatch);
-
+            if(dead == true)
+            {
+                spriteBatch.DrawString(font, $"Nyan Cat died after running into a wall(or himself, no one knows for sure) at high speeds, lol",Vector2.Zero, Color.Red);
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);

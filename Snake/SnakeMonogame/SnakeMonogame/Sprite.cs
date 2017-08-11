@@ -10,7 +10,7 @@ namespace SnakeMonogame
 {
     class Sprite
     {
-        Texture2D image;
+        public Texture2D image;
        public  Vector2 position;
         Color color;
         public Rectangle hitbox;
