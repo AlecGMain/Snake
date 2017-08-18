@@ -27,7 +27,7 @@ namespace SnakeMonogame
 
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             hitbox.X = (int)position.X;
             hitbox.Y = (int)position.Y;

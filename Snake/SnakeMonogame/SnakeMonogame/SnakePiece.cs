@@ -10,11 +10,32 @@ namespace SnakeMonogame
 {
     class SnakePiece : Sprite
     {
-        public int Speed = 1;
-        public SnakePiece(Texture2D image, Vector2 position, Color color, int speed) 
+      
+        public int Direction = 4;
+        public SnakePiece(Texture2D image, Vector2 position, Color color) 
             : base(image, position, color)
         {
-            Speed = speed;
+          
+        }
+        public override void Update(GameTime gameTime)
+        {
+            if (Direction == 1)
+            {
+               position.Y += image.Height;
+            }
+            if (Direction == 2)
+            {
+                position.Y -= image.Height;
+            }
+            if (Direction == 3)
+            {
+                position.X -= image.Height;
+            }
+            if (Direction == 4)
+            {
+                position.X += image.Height;
+            }
+            base.Update(gameTime);
         }
     }
 }
