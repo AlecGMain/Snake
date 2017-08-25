@@ -13,7 +13,7 @@ namespace SnakeMonogame
     class SnakeHead : SnakePiece
     {
         
-        public SnakeHead(Texture2D Image, Vector2 Position, Color Color) : base(Image, Position, Color)
+        public SnakeHead(Texture2D Image, Vector2 Position, Color Color, int direction) : base(Image, Position, Color, direction)
         {
 
         }

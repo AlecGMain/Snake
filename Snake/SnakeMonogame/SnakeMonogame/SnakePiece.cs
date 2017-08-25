@@ -12,7 +12,11 @@ namespace SnakeMonogame
     {
       
         public int Direction = 4;
-        public SnakePiece(Texture2D image, Vector2 position, Color color) 
+        private Color color;
+
+
+
+        public SnakePiece(Texture2D image, Vector2 position, Color color, int direction) 
             : base(image, position, color)
         {
           
