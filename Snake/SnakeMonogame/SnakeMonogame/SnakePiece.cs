@@ -55,20 +55,35 @@ namespace SnakeMonogame
         {
             if (ks.IsKeyDown(Up))
             {
-                Direction = Direction.Up;
+                if (Direction != Direction.Down)
+                {
+                    Direction = Direction.Up;
+                }
             }
             else if (ks.IsKeyDown(Down))
             {
-                Direction = Direction.Down;
-
+                if (Direction != Direction.Up)
+                {
+                    Direction = Direction.Down;
+                }
             }
             else if (ks.IsKeyDown(Left))
             {
-                Direction = Direction.Left;
+                if (Direction != Direction.Right)
+                {
+
+
+                    Direction = Direction.Left;
+                }
             }
             else if (ks.IsKeyDown(Right))
             {
-                Direction = Direction.Right;
+                if (Direction != Direction.Left)
+                {
+
+
+                    Direction = Direction.Right;
+                }
             }
         }
     }

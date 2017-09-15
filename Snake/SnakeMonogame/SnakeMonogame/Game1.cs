@@ -24,6 +24,7 @@ namespace SnakeMonogame
         List<SnakePiece> pieces = new List<SnakePiece>();
         bool firstpiece = true;
         int last;
+        int score;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -65,27 +66,17 @@ namespace SnakeMonogame
             {
                 if (dead == false)
                 {
-                    for (int i = pieces.Count - 1; i > 0; i--)
-                    {
-                        pieces[i].Direction = pieces[i - 1].Direction;
-                    }
-
                     foreach (SnakePiece piece in pieces)
                     {
-                        //if (i == 0)
-                        //{
-                        //    piece.Direction = pieces[0].Direction;
-                        //}
-                        //else
-                        //{
-                        //    piece.Direction = pieces[i - 1].Direction;
-                        //}
                         piece.Update(gameTime);
 
                         base.Update(gameTime);
                     }
-                   
 
+                    for (int i = pieces.Count - 1; i > 0; i--)
+                    {   
+                        pieces[i].Direction = pieces[i - 1].Direction;
+                    }
                 }
                 currentTime = TimeSpan.Zero;
             }
@@ -97,13 +88,13 @@ namespace SnakeMonogame
 
             pieces[0].Move(ks, Keys.Up, Keys.Down, Keys.Left, Keys.Right);
 
-            //for (int i = 1; i < pieces.Count; i++)
-            //{
-            //    if (i - 1 < pieces.Count && pieces[i - 1].hitbox.Intersects(pieces[0].hitbox))
-            //    {
-
-            //    }
-            //}
+            for (int i = 2; i < pieces.Count; i++)
+            {
+                if ( pieces[i].hitbox.Intersects(pieces[0].hitbox))
+                {
+                    dead = true;
+                }
+            }
 
             if (pieces[0].position.X <= 0)
             {
@@ -128,11 +119,23 @@ namespace SnakeMonogame
 
             if (dead)
             {
+               
                 if (catSoundEffectInstance == null)
                 {
                     catSoundEffectInstance = catSoundEffect.CreateInstance();
 
                     catSoundEffect.Play();
+                }
+                if (ks.IsKeyDown(Keys.R))
+                {
+                    while (pieces.Count > 1)
+                    {
+                        pieces.Remove(pieces[1]);
+                    }
+                    pieces[0].Direction = Direction.Right;
+                    pieces[0].position = new Vector2(1, 1);
+                    dead = false;
+                    score = 0;
                 }
             }
         
@@ -142,22 +145,22 @@ namespace SnakeMonogame
                 SnakePiece tailPiece = pieces[pieces.Count - 1];
 
                 SnakePiece newPiece = new SnakePiece(Content.Load<Texture2D>("trail"), new Vector2(tailPiece.position.X, tailPiece.position.Y), Color.White, tailPiece.Direction);
-
+                score++;
                 if (tailPiece.Direction == Direction.Up)
                 {
-                    newPiece.position = new Vector2(newPiece.position.X, newPiece.position.Y + tailPiece.image.Height);
+                    newPiece.position = new Vector2(newPiece.position.X, newPiece.position.Y + (tailPiece.image.Height ));
                 }
                 if (tailPiece.Direction == Direction.Down)
                 {
-                    newPiece.position = new Vector2(newPiece.position.X, newPiece.position.Y - tailPiece.image.Height);
+                    newPiece.position = new Vector2(newPiece.position.X, newPiece.position.Y - (tailPiece.image.Height ));
                 }
                 if (tailPiece.Direction == Direction.Left)
                 {
-                    newPiece.position = new Vector2(newPiece.position.X + tailPiece.image.Width, newPiece.position.Y);
+                    newPiece.position = new Vector2(newPiece.position.X + tailPiece.image.Width, (newPiece.position.Y ));
                 }
                 if (tailPiece.Direction == Direction.Right)
                 {
-                    newPiece.position = new Vector2(newPiece.position.X - tailPiece.image.Width, newPiece.position.Y);
+                    newPiece.position = new Vector2(newPiece.position.X - tailPiece.image.Width, (newPiece.position.Y ));
                 }
 
                 pieces.Add(newPiece);
@@ -176,10 +179,11 @@ namespace SnakeMonogame
             {
                 piece.Draw(spriteBatch);
             }
-
+            spriteBatch.DrawString(font, $"Score:{score}", new Vector2(530, 0), Color.Green);
             if (dead == true)
             {
                 spriteBatch.DrawString(font, $"Nyan Cat died after running into a wall(or himself, no one knows for sure) at high speeds, lol", Vector2.Zero, Color.Red);
+                spriteBatch.DrawString(font, $"Press R to play again!", new Vector2(300, 300), Color.Blue);
             }
             spriteBatch.End();
 
